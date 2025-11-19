@@ -1,0 +1,18 @@
+# Ignore build artifacts and simulation outputs
+*.vcd
+*.out
+*.wlf
+*.bak
+*.o
+*.mem
+transcript.log
+work/
+.DS_Store
+
+# Ignore personal/course specific documents
+Shazli ASIC HW3.docx
+Instructions/
+
+# Ignore redundant directories
+HW3 Questa Final/
+

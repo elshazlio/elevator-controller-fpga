@@ -1,0 +1,291 @@
+================================================================================
+ELEVATOR CONTROLLER - DE0-CV PIN CONNECTIONS
+================================================================================
+FPGA Device: Cyclone V 5CEBA4F23C7
+Board: Altera DE0-CV
+Date: November 14, 2025
+================================================================================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          CLOCK AND RESET                                    │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Signal         Direction   FPGA Pin    Board Component    Description
+────────────────────────────────────────────────────────────────────────────────
+clk            INPUT       PIN_M9      CLOCK_50           50 MHz system clock
+reset_n        INPUT       PIN_U7      KEY[0]             Active-low reset button
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                     INSIDE BUTTONS (Slide Switches)                         │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Signal              Direction   FPGA Pin    Board Component    Floor Request
+────────────────────────────────────────────────────────────────────────────────
+inside_buttons[0]   INPUT       PIN_U13     SW[0]              Ground Floor (0)
+inside_buttons[1]   INPUT       PIN_V13     SW[1]              Floor 1
+inside_buttons[2]   INPUT       PIN_T13     SW[2]              Floor 2
+inside_buttons[3]   INPUT       PIN_T12     SW[3]              Floor 3
+inside_buttons[4]   INPUT       PIN_AA15    SW[4]              Floor 4
+inside_buttons[5]   INPUT       PIN_AB15    SW[5]              Floor 5
+inside_buttons[6]   INPUT       PIN_AA14    SW[6]              Floor 6
+inside_buttons[7]   INPUT       PIN_AA13    SW[7]              Floor 7
+inside_buttons[8]   INPUT       PIN_AB13    SW[8]              Floor 8
+inside_buttons[9]   INPUT       PIN_AB12    SW[9]              Top Floor (9)
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                       STATUS INDICATORS (LEDs)                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Signal         Direction   FPGA Pin    Board Component    Status Indication
+────────────────────────────────────────────────────────────────────────────────
+mv_up          OUTPUT      PIN_AA2     LEDR[0]            ON when moving UP
+mv_down        OUTPUT      PIN_AA1     LEDR[1]            ON when moving DOWN
+door_open      OUTPUT      PIN_W2      LEDR[2]            ON when door is OPEN
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                  SEVEN-SEGMENT DISPLAY (Current Floor)                      │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Signal         Direction   FPGA Pin    Board Component    Segment
+────────────────────────────────────────────────────────────────────────────────
+ssd_hex[0]     OUTPUT      PIN_U21     HEX0[0]            Segment A (top)
+ssd_hex[1]     OUTPUT      PIN_V21     HEX0[1]            Segment B (top-right)
+ssd_hex[2]     OUTPUT      PIN_W22     HEX0[2]            Segment C (bottom-right)
+ssd_hex[3]     OUTPUT      PIN_W21     HEX0[3]            Segment D (bottom)
+ssd_hex[4]     OUTPUT      PIN_Y22     HEX0[4]            Segment E (bottom-left)
+ssd_hex[5]     OUTPUT      PIN_Y21     HEX0[5]            Segment F (top-left)
+ssd_hex[6]     OUTPUT      PIN_AA22    HEX0[6]            Segment G (middle)
+
+Note: HEX0 displays current floor number (0-9)
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        UNUSED SIGNALS (Internal)                            │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Signal              Status              Description
+────────────────────────────────────────────────────────────────────────────────
+up_buttons[8:0]     Tied to GND         External UP buttons (not implemented)
+dn_buttons[8:0]     Tied to GND         External DOWN buttons (not implemented)
+floor[3:0]          Internal only       Used internally, displayed on HEX0
+
+
+================================================================================
+                            VISUAL BOARD LAYOUT
+================================================================================
+
+                        DE0-CV FPGA Board (Top View)
+
+    ┌───────────────────────────────────────────────────────────────┐
+    │                                                               │
+    │   SLIDE SWITCHES (Inside Button Floor Requests)              │
+    │   ┌────┬────┬────┬────┬────┬────┬────┬────┬────┬────┐       │
+    │   │SW9 │SW8 │SW7 │SW6 │SW5 │SW4 │SW3 │SW2 │SW1 │SW0 │       │
+    │   │ 9  │ 8  │ 7  │ 6  │ 5  │ 4  │ 3  │ 2  │ 1  │ 0  │       │
+    │   └────┴────┴────┴────┴────┴────┴────┴────┴────┴────┘       │
+    │                                                               │
+    │                                                               │
+    │   RED LEDs (Status Indicators)                               │
+    │   ┌──┬──┬──┬──┬──┬──┬──┬──┬──┬──┐                           │
+    │   │ 9│ 8│ 7│ 6│ 5│ 4│ 3│ 2│ 1│ 0│                           │
+    │   │  │  │  │  │  │  │  │ ●│ ●│ ●│  ← Use these 3            │
+    │   │  │  │  │  │  │  │  │ │ │ │ │                           │
+    │   │  │  │  │  │  │  │  │ │ │ └─ LEDR[0] = mv_up           │
+    │   │  │  │  │  │  │  │  │ │ └─── LEDR[1] = mv_down         │
+    │   │  │  │  │  │  │  │  │ └───── LEDR[2] = door_open       │
+    │   └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┘                           │
+    │                                                               │
+    │                                                               │
+    │   SEVEN-SEGMENT DISPLAYS                                     │
+    │   ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐          │
+    │   │HEX5 │ │HEX4 │ │HEX3 │ │HEX2 │ │HEX1 │ │HEX0 │          │
+    │   │     │ │     │ │     │ │     │ │     │ │  #  │ ← Shows  │
+    │   │     │ │     │ │     │ │     │ │     │ │Floor│   floor  │
+    │   └─────┘ └─────┘ └─────┘ └─────┘ └─────┘ └─────┘          │
+    │                                                               │
+    │                                                               │
+    │   PUSH BUTTONS                                               │
+    │   ┌──────┐  ┌──────┐  ┌──────┐  ┌──────┐                   │
+    │   │ KEY3 │  │ KEY2 │  │ KEY1 │  │ KEY0 │                   │
+    │   │      │  │      │  │      │  │RESET │ ← Press to reset  │
+    │   └──────┘  └──────┘  └──────┘  └──────┘                   │
+    │                                                               │
+    │                                  ┌──────────┐                │
+    │                                  │ USB      │                │
+    │                                  │ Blaster  │ ← Programming  │
+    │                                  └──────────┘                │
+    │                                                               │
+    └───────────────────────────────────────────────────────────────┘
+
+
+================================================================================
+                          SEVEN-SEGMENT DISPLAY MAP
+================================================================================
+
+        HEX0 Display Segments:          Number Display Examples:
+
+             ┌─── A (ssd_hex[0])             0:  ┌───┐          5:  ┌───┐
+             │                                    │   │              ├───┤
+         ┌───┴───┐                                │   │              └───┤
+         │       │                                └───┘              └───┘
+      F  │       │  B
+  (hex[5])│       │(hex[1])                    3:  ┌───┐          9:  ┌───┐
+         │   G   │                                  ├───┤              ├───┤
+         ├───────┤  (ssd_hex[6])                    └───┘              └───┘
+         │       │
+      E  │       │  C
+  (hex[4])│       │(hex[2])
+         │       │
+         └───┬───┘
+             │
+             D (ssd_hex[3])
+
+
+================================================================================
+                         OPERATION INSTRUCTIONS
+================================================================================
+
+1. POWER ON
+   ├─ HEX0 displays "0" (ground floor)
+   ├─ All LEDs are OFF
+   └─ All switches should be in DOWN position
+
+2. RESET SYSTEM
+   ├─ Press KEY[0] button
+   ├─ Elevator returns to floor 0
+   └─ All internal states cleared
+
+3. REQUEST A FLOOR
+   ├─ Flip switch SW[N] to UP position (where N = desired floor 0-9)
+   ├─ Elevator starts moving:
+   │  ├─ If N > current floor: LEDR[0] turns ON (moving up)
+   │  ├─ If N < current floor: LEDR[1] turns ON (moving down)
+   │  └─ If N = current floor: LEDR[2] turns ON immediately (door opens)
+   ├─ HEX0 counts up/down showing current floor
+   ├─ Each floor takes approximately 2 seconds
+   └─ Upon reaching floor N:
+      ├─ Movement LED (LEDR[0] or LEDR[1]) turns OFF
+      ├─ LEDR[2] (door_open) turns ON
+      ├─ Door stays open for ~2 seconds
+      └─ LEDR[2] turns OFF (ready for next request)
+
+4. MULTIPLE REQUESTS
+   ├─ Flip multiple switches UP simultaneously
+   ├─ Elevator services them in priority order:
+   │  ├─ If moving UP: visits higher floors first (ascending order)
+   │  └─ If moving DOWN: visits lower floors first (descending order)
+   └─ Flip each switch DOWN after its floor is reached
+
+5. TIMING
+   ├─ Floor-to-floor movement: ~2 seconds
+   ├─ Door open duration: ~2 seconds
+   └─ Example: Floor 0 → Floor 9 = 9 floors × 2 sec = ~18 seconds
+
+
+================================================================================
+                        EXPECTED LED BEHAVIOR
+================================================================================
+
+Scenario                    │ LEDR[0]  │ LEDR[1]  │ LEDR[2]  │ HEX0
+                           │ (mv_up)  │(mv_down) │(door_open)│(floor)
+───────────────────────────┼──────────┼──────────┼──────────┼────────
+Idle at floor 3            │   OFF    │   OFF    │   OFF    │   3
+Moving from 3 to 7         │   ON     │   OFF    │   OFF    │ 3→4→5→6→7
+Arrived at floor 7         │   OFF    │   OFF    │   ON     │   7
+Door closes at floor 7     │   OFF    │   OFF    │   OFF    │   7
+Moving from 7 to 2         │   OFF    │   ON     │   OFF    │ 7→6→5→4→3→2
+Same floor request (5→5)   │   OFF    │   OFF    │   ON     │   5
+
+
+================================================================================
+                        TROUBLESHOOTING GUIDE
+================================================================================
+
+SYMPTOM: HEX0 shows nothing
+   → Check that ssd_hex[6:0] pins are correctly assigned
+   → Verify ssd.sv module is included in project
+   → Check that HEX0 is working (test with simple pattern)
+
+SYMPTOM: HEX0 shows wrong numbers
+   → Verify pin order: ssd_hex[0]=A, [1]=B, [2]=C, [3]=D, [4]=E, [5]=F, [6]=G
+   → Check if segments are inverted (active-high vs active-low)
+   → Review ssd.sv logic
+
+SYMPTOM: No LED response to switch inputs
+   → Verify SW[9:0] pin assignments match inside_buttons[9:0]
+   → Check that switches are in correct positions (UP = request)
+   → Press KEY[0] to reset system
+
+SYMPTOM: LEDs stuck ON or behaving erratically
+   → Press KEY[0] to reset
+   → Turn all switches to DOWN position
+   → Check for pin assignment conflicts in Pin Planner
+
+SYMPTOM: Elevator moves too fast or too slow
+   → Verify CLK_FREQ parameter = 50_000_000 in elevator_top_fpga.sv
+   → Check that CLOCK_50 is connected to PIN_M9
+   → Timing should be ~2 seconds per floor
+
+SYMPTOM: Programming fails
+   → Verify USB Blaster is connected and recognized
+   → Check "Hardware Setup" in Programmer shows USB-Blaster
+   → Try power cycling the board
+   → Reinstall USB Blaster drivers if needed
+
+
+================================================================================
+                            PIN SUMMARY TABLE
+================================================================================
+
+Function          Pins Used    Total    Description
+────────────────────────────────────────────────────────────────────────────────
+Clock             1            1        50 MHz system clock (PIN_M9)
+Reset             1            1        Active-low push button (PIN_U7)
+Inside Buttons    10           10       Slide switches SW[9:0]
+Status LEDs       3            3        LEDR[2:0] for up/down/door
+Seven-Segment     7            7        HEX0 display segments
+────────────────────────────────────────────────────────────────────────────────
+TOTAL             22           22       pins used
+
+
+Resource Utilization (Estimated):
+  Logic Elements:     < 200 LEs  (< 5% of 5CEBA4F23C7)
+  Registers:          ~ 50 FFs
+  Memory:             0 bits
+  PLLs:               0
+  Max Clock Freq:     > 200 MHz (design uses 50 MHz)
+
+
+================================================================================
+                          VERIFICATION CHECKLIST
+================================================================================
+
+Before submitting or demonstrating:
+
+[ ] Compilation completes without errors (green checkmark in Quartus)
+[ ] All pins assigned correctly (check Pin Planner)
+[ ] Timing analysis passes (positive slack)
+[ ] Programming succeeds (100% progress)
+[ ] HEX0 displays "0" on power-up/reset
+[ ] All 10 switches respond correctly (each requests its floor)
+[ ] LEDR[0] lights when moving up
+[ ] LEDR[1] lights when moving down
+[ ] LEDR[2] lights when door opens
+[ ] Movement takes ~2 seconds per floor
+[ ] Door stays open for ~2 seconds
+[ ] Multiple requests are serviced in correct order
+[ ] Direction persistence works (completes all up, then all down)
+[ ] Reset button (KEY[0]) returns elevator to floor 0
+
+
+================================================================================
+FILE: PIN_CONNECTIONS.txt
+VERSION: 1.0
+DATE: November 14, 2025
+COURSE: ECNG410401 ASIC Design Using CAD
+================================================================================
+
+
