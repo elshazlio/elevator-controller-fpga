@@ -87,3 +87,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 *Author: Omar ElShazli | Course: ECNG410401 ASIC Design Using CAD*
 
+Feel free to contact me if you find any issues or bugs, or better yet, fix them!
+
