@@ -2,7 +2,7 @@
 
 A SystemVerilog implementation of a multi-floor elevator controller designed for the **Altera DE0-CV FPGA** (Cyclone V 5CEBA4F23C7). This project includes a complete FSM-based control system, request resolution logic, and hardware interface wrappers.
 
-## 🚀 Features
+## Features
 
 - **10-Floor Support**: Controls movement between floors 0-9.
 - **Smart Request Resolution**: Handles multiple simultaneous requests with direction-based priority (like a real elevator).
@@ -14,7 +14,7 @@ A SystemVerilog implementation of a multi-floor elevator controller designed for
 - **Configurable Timing**: Parametrized movement and door timing (default 2s per floor/action).
 - **Clock Division**: Downscales 50MHz system clock to 1Hz control logic.
 
-## 📁 Project Structure
+## Project Structure
 
 ```text
 .
@@ -29,7 +29,7 @@ A SystemVerilog implementation of a multi-floor elevator controller designed for
 └── Documentation/           # Guides for FPGA and Simulation
 ```
 
-## 🛠️ Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -68,7 +68,7 @@ Detailed guides are included in the repository:
 - [**Simulation Guide**](SIMULATION_GUIDE.md): How to run and view simulations.
 - [**Pin Connections**](PIN_CONNECTIONS.txt): Reference for board pin mappings.
 
-## 🧩 Hardware Mapping (DE0-CV)
+## Hardware Mapping (DE0-CV)
 
 | Board Component | Function |
 |-----------------|----------|
